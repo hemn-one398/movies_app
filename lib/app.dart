@@ -10,8 +10,8 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MultiBlocProvider(
         providers: [
-          BlocProvider<TrendingBloc>(
-            create: (context) => TrendingBloc(),
+          BlocProvider<TrendingMovieBloc>(
+            create: (context) => TrendingMovieBloc(),
           )
         ],
         child: MaterialApp(
