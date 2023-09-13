@@ -1,4 +1,4 @@
-part of 'trending_bloc_bloc.dart';
+part of 'trending_bloc.dart';
 
 sealed class TrendingBlocEvent extends Equatable {
   const TrendingBlocEvent();
