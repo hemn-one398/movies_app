@@ -36,4 +36,15 @@ class TrendingMovieRepoOnLineImplementation extends TrendingMovieRepository {
     }
     return (failure, movies);
   }
+
+  @override
+  Future<Failure?> addMovieList({required List<Movie> movie}) {
+    throw UnimplementedError();
+  }
+  
+  @override
+  Future<void> clearMovieList() {
+   
+    throw UnimplementedError();
+  }
 }

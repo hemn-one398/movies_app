@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:iq_movies_app/core/utils/constants/api_const.dart';
@@ -69,19 +71,22 @@ class MovieItemCard extends StatelessWidget {
     return isOfflineState
         ? movie.backdropOfflinePath == null
             ? _imagePlaceHolder()
-            : Image.asset(
-                movie.backdropOfflinePath!,
+            : Image.file(
+                File(movie.backdropOfflinePath!),
                 height: 100.h,
                 fit: BoxFit.fill,
               )
-        : CachedNetworkImage(
-            height: 100.h,
-            fit: BoxFit.fill,
-            progressIndicatorBuilder: (context, url, progress) =>
-                const CustomCircularProgressIndicator(),
-            errorWidget: (context, url, error) => _imagePlaceHolder(),
-            imageUrl: ApiConsts.imageBaseUrl + movie.backdropPath.toString(),
-          );
+        : movie.backdropPath == null
+            ? _imagePlaceHolder()
+            : CachedNetworkImage(
+                height: 100.h,
+                fit: BoxFit.fill,
+                progressIndicatorBuilder: (context, url, progress) =>
+                    const CustomCircularProgressIndicator(),
+                errorWidget: (context, url, error) => _imagePlaceHolder(),
+                imageUrl:
+                    ApiConsts.imageBaseUrl + movie.backdropPath.toString(),
+              );
   }
 
   _imagePlaceHolder() {

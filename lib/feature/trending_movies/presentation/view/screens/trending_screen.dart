@@ -51,7 +51,7 @@ class _TrendingScreenState extends State<TrendingScreen> {
 
   Future<void> _updateConnectionStatus(ConnectivityResult result) async {
     setState(() {
-      _trendingMovieBloc.add(result != ConnectivityResult.none
+      _trendingMovieBloc.add(result == ConnectivityResult.none
           ? TrendingMoviesFetchCachedDataFromLocalEvent()
           : TrendingMoviesFirstFetch());
     });

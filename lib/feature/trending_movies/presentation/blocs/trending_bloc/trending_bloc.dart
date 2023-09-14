@@ -28,7 +28,11 @@ class TrendingMovieBloc extends Bloc<TrendingMovieEvent, TrendingMovieState> {
     var (faliure, movies) = await onlineRepo.getTrendingMovies(page: page);
     if (faliure == null) {
       page++;
+
       emit(TrendingMoviesLoaded(movies: movies!));
+
+      await offlineRepo.clearMovieList();
+      await offlineRepo.addMovieList(movie: movies);
     } else {
       final bool isFirstFetch = page == 1;
       emit(
@@ -46,6 +50,7 @@ class TrendingMovieBloc extends Bloc<TrendingMovieEvent, TrendingMovieState> {
     if (currentState is TrendingMoviesLoaded) {
       loadedMoves = currentState.movies;
     }
+
     // I dont want lose the loaded movies cuz changing of the state
     emit(TrendingMoviesLoadingMoreDataState(
       loadedMovies: loadedMoves,
@@ -56,17 +61,19 @@ class TrendingMovieBloc extends Bloc<TrendingMovieEvent, TrendingMovieState> {
     if (faliure == null) {
       page++;
       loadedMoves.addAll(newFetchedmovies!);
+      emit(TrendingMoviesLoaded(movies: loadedMoves));
+      offlineRepo.addMovieList(movie: newFetchedmovies);
     } else {
       emit(TrendingMoviesFailedState(
         failure: faliure,
       ));
+      // to show old loaded data
+      emit(TrendingMoviesLoaded(movies: loadedMoves));
     }
-    emit(TrendingMoviesLoaded(movies: loadedMoves));
   }
 
   List<Movie> unFilteredList = [];
-  FutureOr<void> _searchForMovieEvent(
-      TrendingMoviesSearchEvent event, Emitter<TrendingMovieState> emit) {
+  FutureOr<void> _searchForMovieEvent(event, emit) {
     final query = event.query;
 
     if (state is TrendingMoviesLoaded) {

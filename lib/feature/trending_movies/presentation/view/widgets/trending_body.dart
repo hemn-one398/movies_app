@@ -15,7 +15,7 @@ class TrendingMovieListBody extends StatefulWidget {
 class _TrendingMovieListBodyState extends State<TrendingMovieListBody> {
   final ScrollController scrollController = ScrollController();
   late TrendingMovieBloc _trendingMovieBloc;
-
+  bool isLoadingMore = false;
   @override
   void initState() {
     super.initState();
@@ -32,9 +32,10 @@ class _TrendingMovieListBodyState extends State<TrendingMovieListBody> {
 
   _setUpScrollListner() {
     scrollController.addListener(() {
-      if (scrollController.position.pixels ==
-          scrollController.position.maxScrollExtent) {
-        _trendingMovieBloc.add(TrendingMoviesLoadingMoreEvent());
+      if (scrollController.position.atEdge && !isLoadingMore) {
+        if (scrollController.position.pixels != 0) {
+          _trendingMovieBloc.add(TrendingMoviesLoadingMoreEvent());
+        }
       }
     });
   }
@@ -83,16 +84,17 @@ class _TrendingMovieListBodyState extends State<TrendingMovieListBody> {
   }
 
   Widget _builder(BuildContext context, TrendingMovieState state) {
+    print(state.runtimeType);
     if (state is TrendingMovieInitial) {
       return const CustomCircularProgressIndicator();
     } else {
       final currentState = state;
       final List<Movie> movies = [];
       bool isPaginationable = true;
-      bool isLoadingMore = false;
 
       if (currentState is TrendingMoviesLoaded) {
         movies.addAll(currentState.movies);
+        isLoadingMore = false;
       } else if (currentState is TrendingMoviesLoadingMoreDataState) {
         movies.addAll(currentState.loadedMovies);
         isLoadingMore = true;
@@ -104,6 +106,9 @@ class _TrendingMovieListBodyState extends State<TrendingMovieListBody> {
             child: Text('No Movies found with this title'),
           );
         }
+      }
+      if (currentState is TrendingMoviesGetCachedDataFromLocalState) {
+        isPaginationable = false;
       }
 
       if (movies.isEmpty) {
@@ -118,6 +123,7 @@ class _TrendingMovieListBodyState extends State<TrendingMovieListBody> {
           itemBuilder: (context, index) {
             if (index < movies.length) {
               final movie = movies[index];
+
               return MovieItemCard(
                 onTap: () {},
                 movie: movie,
@@ -125,8 +131,6 @@ class _TrendingMovieListBodyState extends State<TrendingMovieListBody> {
                     currentState is TrendingMoviesGetCachedDataFromLocalState,
               );
             } else {
-              scrollController
-                  .jumpTo(scrollController.position.maxScrollExtent);
               return const CustomCircularProgressIndicator();
             }
           });
