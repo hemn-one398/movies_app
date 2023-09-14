@@ -18,6 +18,7 @@ class TrendingMovieBloc extends Bloc<TrendingMovieEvent, TrendingMovieState> {
   }) : super(TrendingMovieInitial()) {
     on<TrendingMoviesFirstFetch>(_firstFetchingOfData);
     on<TrendingMoviesLoadingMoreEvent>(_fetchingMoreData);
+    on<TrendingMoviesSearchEvent>(_searchForMovieEvent);
   }
 
   FutureOr<void> _firstFetchingOfData(event, emit) async {
@@ -34,8 +35,7 @@ class TrendingMovieBloc extends Bloc<TrendingMovieEvent, TrendingMovieState> {
     }
   }
 
-  FutureOr<void> _fetchingMoreData(TrendingMoviesLoadingMoreEvent event,
-      Emitter<TrendingMovieState> emit) async {
+  FutureOr<void> _fetchingMoreData(event, emit) async {
     final currentState = state;
     // loadedMovies is for holding loaded movies and append it upcoming movies from scrolling
 
@@ -57,6 +57,27 @@ class TrendingMovieBloc extends Bloc<TrendingMovieEvent, TrendingMovieState> {
       emit(TrendingMoviesFailedState(
         failure: faliure,
       ));
+    }
+  }
+
+  List<Movie> unFilteredList = [];
+  FutureOr<void> _searchForMovieEvent(
+      TrendingMoviesSearchEvent event, Emitter<TrendingMovieState> emit) {
+    final query = event.query;
+
+    if (state is TrendingMoviesLoaded) {
+      unFilteredList = (state as TrendingMoviesLoaded).movies;
+    }
+    if (query.isEmpty) {
+      emit(TrendingMoviesLoaded(
+        movies: unFilteredList,
+      ));
+    } else {
+      final filteredList = unFilteredList.where((element) {
+        return element.title!.toLowerCase().contains(query.toLowerCase());
+      }).toList();
+
+      emit(TrendingMoviesFilteringState(filteredMovies: filteredList));
     }
   }
 }

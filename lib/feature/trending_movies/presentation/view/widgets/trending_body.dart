@@ -58,12 +58,22 @@ class _TrendingMovieListBodyState extends State<TrendingMovieListBody> {
       final List<Movie> movies = [];
       bool isPaginationable = true;
       bool isLoadingMore = false;
+
       if (currentState is TrendingMoviesLoaded) {
         movies.addAll(currentState.movies);
       } else if (currentState is TrendingMoviesLoadingMoreDataState) {
         movies.addAll(currentState.loadedMovies);
         isLoadingMore = true;
+      } else if (currentState is TrendingMoviesFilteringState) {
+        movies.addAll(currentState.filteredMovies);
+        isPaginationable = false;
+        if (movies.isEmpty) {
+          return const Center(
+            child: Text('No Movies found with this title'),
+          );
+        }
       }
+
       if (movies.isEmpty) {
         return const Center(
           child: Text('No Movies'),

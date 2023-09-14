@@ -1,10 +1,7 @@
 part of 'trending_bloc.dart';
 
-sealed class TrendingMovieEvent extends Equatable {
+sealed class TrendingMovieEvent {
   const TrendingMovieEvent();
-
-  @override
-  List<Object> get props => [];
 }
 
 class TrendingMoviesLoadingMoreEvent extends TrendingMovieEvent {}
@@ -15,9 +12,13 @@ class TrendingMoviesFetchCachedDataFromLocalEvent extends TrendingMovieEvent {}
 
 class TreandingMoviesRefresh extends TrendingMovieEvent {}
 
+class TrendingMoviesSearchEvent extends TrendingMovieEvent {
+  final String query;
 
-class TrendingMoviesNavigateToMovieDetailPageEvent
-    extends TrendingMovieEvent {
+  const TrendingMoviesSearchEvent({required this.query});
+}
+
+class TrendingMoviesNavigateToMovieDetailPageEvent extends TrendingMovieEvent {
   final Movie movie;
 
   const TrendingMoviesNavigateToMovieDetailPageEvent(this.movie);

@@ -1,11 +1,8 @@
 part of 'trending_bloc.dart';
 
 @immutable
-sealed class TrendingMovieState extends Equatable {
+sealed class TrendingMovieState {
   const TrendingMovieState();
-
-  @override
-  List<Object> get props => [];
 }
 
 // this class, is use it just for states that need to be only listened

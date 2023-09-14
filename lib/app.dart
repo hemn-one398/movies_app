@@ -11,24 +11,25 @@ class MyApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return MultiBlocProvider(
-        providers: [
-          BlocProvider<TrendingMovieBloc>(
-            create: (context) => TrendingMovieBloc(
-              onlineRepo: TrendingMovieRepoOnLineImplementation(
-                apiService: ApiServices(),
+    return Sizer(builder: (_, orientation, deviceType) {
+      return MultiBlocProvider(
+          providers: [
+            BlocProvider<TrendingMovieBloc>(
+              create: (context) => TrendingMovieBloc(
+                onlineRepo: TrendingMovieRepoOnLineImplementation(
+                  apiService: ApiServices(),
+                ),
               ),
-            )..add(TrendingMoviesFirstFetch()),
-          )
-        ],
-        child: Sizer(builder: (context, orientation, deviceType) {
-          return MaterialApp(
+            )
+          ],
+          child: MaterialApp(
+              debugShowCheckedModeBanner: false,
               title: 'IQ Movies',
               theme: ThemeData(
                 colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
                 useMaterial3: true,
               ),
-              home: const TrendingScreen());
-        }));
+              home: const TrendingScreen()));
+    });
   }
 }
