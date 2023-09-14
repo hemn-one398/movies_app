@@ -84,7 +84,7 @@ class _TrendingMovieListBodyState extends State<TrendingMovieListBody> {
   }
 
   Widget _builder(BuildContext context, TrendingMovieState state) {
-    print(state.runtimeType);
+   
     if (state is TrendingMovieInitial) {
       return const CustomCircularProgressIndicator();
     } else {
