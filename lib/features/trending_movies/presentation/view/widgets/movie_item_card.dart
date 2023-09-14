@@ -4,7 +4,7 @@ import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:iq_movies_app/core/utils/constants/api_const.dart';
 import 'package:iq_movies_app/core/utils/widgets/custom_circular_loading.dart';
-import 'package:iq_movies_app/feature/trending_movies/data/models/movie.dart';
+import 'package:iq_movies_app/features/trending_movies/data/models/movie.dart';
 import 'package:sizer/sizer.dart';
 
 class MovieItemCard extends StatelessWidget {

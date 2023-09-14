@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:iq_movies_app/core/utils/widgets/custom_circular_loading.dart';
-import 'package:iq_movies_app/core/utils/widgets/movie_item_card.dart';
-import 'package:iq_movies_app/feature/trending_movies/data/models/movie.dart';
-import 'package:iq_movies_app/feature/trending_movies/presentation/blocs/trending_bloc/trending_bloc.dart';
+import 'package:iq_movies_app/features/trending_movies/presentation/view/widgets/movie_item_card.dart';
+import 'package:iq_movies_app/features/trending_movies/data/models/movie.dart';
+import 'package:iq_movies_app/features/trending_movies/presentation/blocs/trending_bloc/trending_bloc.dart';
 
 class TrendingMovieListBody extends StatefulWidget {
   const TrendingMovieListBody({Key? key}) : super(key: key);

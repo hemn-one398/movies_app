@@ -4,8 +4,8 @@ import 'package:connectivity_plus/connectivity_plus.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:iq_movies_app/feature/trending_movies/presentation/blocs/trending_bloc/trending_bloc.dart';
-import 'package:iq_movies_app/feature/trending_movies/presentation/view/widgets/trending_body.dart';
+import 'package:iq_movies_app/features/trending_movies/presentation/blocs/trending_bloc/trending_bloc.dart';
+import 'package:iq_movies_app/features/trending_movies/presentation/view/widgets/trending_body.dart';
 
 import 'dart:developer' as developer;
 
