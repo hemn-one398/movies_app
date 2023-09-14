@@ -84,5 +84,9 @@ class TrendingMovieBloc extends Bloc<TrendingMovieEvent, TrendingMovieState> {
 
   FutureOr<void> _fetchCachedDataFromLocal(
       TrendingMoviesFetchCachedDataFromLocalEvent event,
-      Emitter<TrendingMovieState> emit) {}
+      Emitter<TrendingMovieState> emit) {
+    emit(const TrendingMoviesGetCachedDataFromLocalState(
+      movies: [],
+    ));
+  }
 }
