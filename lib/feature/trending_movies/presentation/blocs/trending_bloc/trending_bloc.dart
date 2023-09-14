@@ -1,7 +1,6 @@
 import 'dart:async';
 
 import 'package:bloc/bloc.dart';
-import 'package:equatable/equatable.dart';
 import 'package:flutter/foundation.dart';
 import 'package:iq_movies_app/core/errors/failures.dart';
 import 'package:iq_movies_app/feature/trending_movies/data/models/movie.dart';
@@ -19,6 +18,7 @@ class TrendingMovieBloc extends Bloc<TrendingMovieEvent, TrendingMovieState> {
     on<TrendingMoviesFirstFetch>(_firstFetchingOfData);
     on<TrendingMoviesLoadingMoreEvent>(_fetchingMoreData);
     on<TrendingMoviesSearchEvent>(_searchForMovieEvent);
+    on<TrendingMoviesFetchCachedDataFromLocalEvent>(_fetchCachedDataFromLocal);
   }
 
   FutureOr<void> _firstFetchingOfData(event, emit) async {
@@ -51,13 +51,14 @@ class TrendingMovieBloc extends Bloc<TrendingMovieEvent, TrendingMovieState> {
     var (faliure, newFetchedmovies) =
         await onlineRepo.getTrendingMovies(page: page);
     if (faliure == null) {
+      page++;
       loadedMoves.addAll(newFetchedmovies!);
-      emit(TrendingMoviesLoaded(movies: loadedMoves));
     } else {
       emit(TrendingMoviesFailedState(
         failure: faliure,
       ));
     }
+    emit(TrendingMoviesLoaded(movies: loadedMoves));
   }
 
   List<Movie> unFilteredList = [];
@@ -80,4 +81,8 @@ class TrendingMovieBloc extends Bloc<TrendingMovieEvent, TrendingMovieState> {
       emit(TrendingMoviesFilteringState(filteredMovies: filteredList));
     }
   }
+
+  FutureOr<void> _fetchCachedDataFromLocal(
+      TrendingMoviesFetchCachedDataFromLocalEvent event,
+      Emitter<TrendingMovieState> emit) {}
 }

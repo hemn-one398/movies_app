@@ -48,7 +48,39 @@ class _TrendingMovieListBodyState extends State<TrendingMovieListBody> {
     );
   }
 
-  void _listner(BuildContext context, TrendingMovieState state) {}
+  void _listner(BuildContext context, TrendingMovieState state) {
+    if (state is TrendingMoviesFailedState) {
+      showDialog(
+        barrierDismissible: false,
+        context: context,
+        builder: (_) {
+          return AlertDialog(title: Text(state.failure.errMessage), actions: [
+            TextButton(
+                child: const Text('Retry'),
+                onPressed: () {
+                  Navigator.pop(context);
+                  //If user clicks retry, load data from online
+                  //
+                  _trendingMovieBloc.add(
+                    TrendingMoviesLoadingMoreEvent(),
+                  );
+                }),
+            TextButton(
+                child: const Text('Close'),
+                onPressed: () {
+                  Navigator.pop(context);
+                  //If first fetch failed, get strored data from loacal storage if he want to cloase dialog, not retry
+                  if (state.isFirstFetchFailure) {
+                    _trendingMovieBloc.add(
+                      TrendingMoviesFetchCachedDataFromLocalEvent(),
+                    );
+                  }
+                }),
+          ]);
+        },
+      );
+    }
+  }
 
   Widget _builder(BuildContext context, TrendingMovieState state) {
     if (state is TrendingMovieInitial) {

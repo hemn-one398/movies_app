@@ -48,11 +48,11 @@ final class TrendingMoviesFilteringState extends TrendingMovieState {
   });
 }
 
-final class TrendingMoviesFailedState extends TrendingMovieState {
+final class TrendingMoviesFailedState extends TrendingMoviesListenable {
   final Failure failure;
   final bool isFirstFetchFailure;
 
-  const TrendingMoviesFailedState({
+  TrendingMoviesFailedState({
     required this.failure,
     this.isFirstFetchFailure = false,
   });
