@@ -6,7 +6,7 @@ class ApiConsts {
   static String trendingMovieListEndPoint({
     required int page,
   }) {
-    return "/discsover/movie?include_adult=false&sort_by=popularity.desc&page=$page";
+    return "/discover/movie?include_adult=false&sort_by=popularity.desc&page=$page";
   }
 
   static getMovieDetailEndPoint({
