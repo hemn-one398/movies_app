@@ -11,9 +11,12 @@ part 'trending_state.dart';
 
 class TrendingMovieBloc extends Bloc<TrendingMovieEvent, TrendingMovieState> {
   TrendingMovieRepository onlineRepo;
+  TrendingMovieRepository offlineRepo;
+
   int page = 1;
   TrendingMovieBloc({
     required this.onlineRepo,
+    required this.offlineRepo,
   }) : super(TrendingMovieInitial()) {
     on<TrendingMoviesFirstFetch>(_firstFetchingOfData);
     on<TrendingMoviesLoadingMoreEvent>(_fetchingMoreData);
@@ -84,9 +87,16 @@ class TrendingMovieBloc extends Bloc<TrendingMovieEvent, TrendingMovieState> {
 
   FutureOr<void> _fetchCachedDataFromLocal(
       TrendingMoviesFetchCachedDataFromLocalEvent event,
-      Emitter<TrendingMovieState> emit) {
-    emit(const TrendingMoviesGetCachedDataFromLocalState(
-      movies: [],
-    ));
+      Emitter<TrendingMovieState> emit) async {
+    var (faliure, movies) = await offlineRepo.getTrendingMovies();
+    if (faliure == null) {
+      emit(TrendingMoviesGetCachedDataFromLocalState(
+        movies: movies!,
+      ));
+    } else {
+      emit(TrendingMoviesFailedState(
+        failure: faliure,
+      ));
+    }
   }
 }
