@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:iq_movies_app/feature/trending_movies/presentation/view/widgets/trending_listview.dart';
+import 'package:iq_movies_app/feature/trending_movies/presentation/view/widgets/trending_body.dart';
 
 class TrendingScreen extends StatefulWidget {
   const TrendingScreen({Key? key}) : super(key: key);
@@ -21,7 +21,7 @@ class _TrendingScreenState extends State<TrendingScreen> {
               decoration: InputDecoration(
             hintText: 'Search by title',
           )),
-          Expanded(child: TrendingListView()),
+          Expanded(child: TrendingMovieListBody()),
         ],
       ),
     );

@@ -18,5 +18,5 @@ class TrendingMoviesNavigateToMovieDetailPageEvent
     extends TrendingMovieEvent {
   final Movie movie;
 
-  TrendingMoviesNavigateToMovieDetailPageEvent(this.movie);
+  const TrendingMoviesNavigateToMovieDetailPageEvent(this.movie);
 }

@@ -1,7 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:iq_movies_app/core/providers/remote/api_service.dart';
+import 'package:iq_movies_app/feature/trending_movies/data/repositories/trending_movie_repo_online_implementation.dart';
 import 'package:iq_movies_app/feature/trending_movies/presentation/blocs/trending_bloc/trending_bloc.dart';
 import 'package:iq_movies_app/feature/trending_movies/presentation/view/screens/trending_screen.dart';
+import 'package:sizer/sizer.dart';
 
 class MyApp extends StatelessWidget {
   const MyApp({super.key});
@@ -11,15 +14,21 @@ class MyApp extends StatelessWidget {
     return MultiBlocProvider(
         providers: [
           BlocProvider<TrendingMovieBloc>(
-            create: (context) => TrendingMovieBloc(),
+            create: (context) => TrendingMovieBloc(
+              onlineRepo: TrendingMovieRepoOnLineImplementation(
+                apiService: ApiServices(),
+              ),
+            )..add(TrendingMoviesFirstFetch()),
           )
         ],
-        child: MaterialApp(
-            title: 'IQ Movies',
-            theme: ThemeData(
-              colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
-              useMaterial3: true,
-            ),
-            home: const TrendingScreen()));
+        child: Sizer(builder: (context, orientation, deviceType) {
+          return MaterialApp(
+              title: 'IQ Movies',
+              theme: ThemeData(
+                colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
+                useMaterial3: true,
+              ),
+              home: const TrendingScreen());
+        }));
   }
 }

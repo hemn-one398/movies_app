@@ -22,16 +22,16 @@ final class TrendingMoviesLoadingNextPage extends TrendingMovieState {
 }
 
 // loaded state means success state
-final class TreandingMoviesLoaded extends TrendingMovieState {
+final class TrendingMoviesLoaded extends TrendingMovieState {
   final List<Movie> movies;
 
-  const TreandingMoviesLoaded({
+  const TrendingMoviesLoaded({
     required this.movies,
   });
 }
 
 final class TrendingMoviesGetCachedDataFromLocalState
-    extends TreandingMoviesLoaded {
+    extends TrendingMoviesLoaded {
   const TrendingMoviesGetCachedDataFromLocalState({required super.movies});
 }
 
@@ -53,8 +53,10 @@ final class TrendingMoviesFilteringState extends TrendingMovieState {
 
 final class TrendingMoviesFailedState extends TrendingMovieState {
   final Failure failure;
+  final bool isFirstFetchFailure;
 
   const TrendingMoviesFailedState({
     required this.failure,
+    required this.isFirstFetchFailure,
   });
 }
