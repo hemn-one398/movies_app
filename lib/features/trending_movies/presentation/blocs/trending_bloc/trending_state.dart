@@ -35,9 +35,9 @@ final class TrendingMoviesGetCachedDataFromLocalState
 //state of navigating to movie detail page
 final class TrendingMoviesNavigateToMovieDetailPageState
     extends TrendingMoviesListenable {
-  final Movie movie;
+  final int? movieId;
 
-  TrendingMoviesNavigateToMovieDetailPageState({required this.movie});
+  TrendingMoviesNavigateToMovieDetailPageState({required this.movieId});
 }
 
 final class TrendingMoviesFilteringState extends TrendingMovieState {

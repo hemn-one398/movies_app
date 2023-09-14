@@ -31,7 +31,7 @@ class MovieAdapter extends TypeAdapter<Movie> {
       video: fields[11] as bool?,
       voteAverage: fields[12] as double?,
       voteCount: fields[13] as int?,
-      backdropOfflinePath: fields[14] as String?,
+      posterOfflinePath: fields[14] as String?,
     );
   }
 
@@ -68,7 +68,7 @@ class MovieAdapter extends TypeAdapter<Movie> {
       ..writeByte(13)
       ..write(obj.voteCount)
       ..writeByte(14)
-      ..write(obj.backdropOfflinePath);
+      ..write(obj.posterOfflinePath);
   }
 
   @override

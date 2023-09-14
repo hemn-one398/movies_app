@@ -24,7 +24,7 @@ class MovieItemCard extends StatelessWidget {
     return GestureDetector(
       onTap: onTap,
       child: Container(
-        height: 140,
+        height: 150,
         margin: const EdgeInsets.all(10),
         decoration: BoxDecoration(
           borderRadius: BorderRadius.circular(10),
@@ -69,10 +69,10 @@ class MovieItemCard extends StatelessWidget {
 
   _imageBuilder() {
     return isOfflineState
-        ? movie.backdropOfflinePath == null
+        ? movie.posterOfflinePath == null
             ? _imagePlaceHolder()
             : Image.file(
-                File(movie.backdropOfflinePath!),
+                File(movie.posterOfflinePath!),
                 height: 100.h,
                 fit: BoxFit.fill,
               )
@@ -84,8 +84,7 @@ class MovieItemCard extends StatelessWidget {
                 progressIndicatorBuilder: (context, url, progress) =>
                     const CustomCircularProgressIndicator(),
                 errorWidget: (context, url, error) => _imagePlaceHolder(),
-                imageUrl:
-                    ApiConsts.imageBaseUrl + movie.backdropPath.toString(),
+                imageUrl: ApiConsts.imageBaseUrl + movie.posterPath.toString(),
               );
   }
 

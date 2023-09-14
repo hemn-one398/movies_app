@@ -16,8 +16,23 @@ class MovieDetailBody extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Column(children: [
-      _imageBuilder(),
-      const Expanded(child: Text("Movie Detail Body")),
+      ClipRRect(
+          borderRadius:
+              const BorderRadius.vertical(bottom: Radius.circular(24)),
+          child: SizedBox(
+            height: 35.h,
+            child: _imageBuilder(),
+          )),
+      Text(movieDetail.title!),
+      Text(movieDetail.releaseDate),
+      ...movieDetail.genres.map((e) => Text(e.name)).toList(),
+      Text(movieDetail.overview!),
+      Text(movieDetail.homepage!),
+      Text(movieDetail.budget.toString()),
+      Text(movieDetail.revenue.toString()),
+      ...movieDetail.spokenLanguages.map((e) => Text(e.name)).toList(),
+      Text(movieDetail.status!),
+      Text(movieDetail.runtime.toString()),
     ]);
   }
 
@@ -27,13 +42,11 @@ class MovieDetailBody extends StatelessWidget {
             ? const Icon(Icons.image)
             : Image.file(
                 File(movieDetail.backdropOfflinePath!),
-                height: 30.h,
                 fit: BoxFit.fill,
               )
         : movieDetail.backdropPath == null
             ? const Icon(Icons.image)
             : CachedNetworkImage(
-                height: 30.h,
                 fit: BoxFit.fill,
                 progressIndicatorBuilder: (context, url, progress) =>
                     const CustomCircularProgressIndicator(),

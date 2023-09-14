@@ -10,7 +10,11 @@ class TrendingMovieDetailScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(),
+      extendBodyBehindAppBar: true,
+      appBar: AppBar(
+        backgroundColor: Colors.transparent,
+        elevation: 0,
+      ),
       body: BlocConsumer<MovieDetailBloc, MovieDetailState>(
         buildWhen: (_, state) => state is! MovieDetailStateListenable,
         listener: _listener,
@@ -27,7 +31,6 @@ class TrendingMovieDetailScreen extends StatelessWidget {
   }
 
   Widget _builder(BuildContext context, MovieDetailState state) {
-    print(state.runtimeType);
     if (state is MovieDetailFetchDataState) {
       return const CustomCircularProgressIndicator();
     } else if (state is MovieDetailSuccessState) {

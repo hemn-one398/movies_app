@@ -16,19 +16,19 @@ class MovieDetail extends Equatable {
   @HiveField(3)
   final List<Genre> genres;
   @HiveField(4)
-  final String homepage;
+  final String? homepage;
   @HiveField(5)
   final int id;
   @HiveField(6)
-  final String imdbId;
+  final String? imdbId;
   @HiveField(7)
-  final String originalLanguage;
+  final String? originalLanguage;
   @HiveField(8)
-  final String originalTitle;
+  final String? originalTitle;
   @HiveField(9)
-  final String overview;
+  final String? overview;
   @HiveField(10)
-  final double popularity;
+  final double? popularity;
   @HiveField(11)
   final String posterPath;
   @HiveField(12)
@@ -40,21 +40,21 @@ class MovieDetail extends Equatable {
   @HiveField(15)
   final int? revenue;
   @HiveField(16)
-  final int runtime;
+  final int? runtime;
   @HiveField(17)
   final List<SpokenLanguage> spokenLanguages;
   @HiveField(18)
-  final String status;
+  final String? status;
   @HiveField(19)
-  final String tagline;
+  final String? tagline;
   @HiveField(20)
-  final String title;
+  final String? title;
   @HiveField(21)
-  final bool video;
+  final bool? video;
   @HiveField(22)
-  final double voteAverage;
+  final double? voteAverage;
   @HiveField(23)
-  final int voteCount;
+  final int? voteCount;
   @HiveField(24)
   String? backdropOfflinePath;
 

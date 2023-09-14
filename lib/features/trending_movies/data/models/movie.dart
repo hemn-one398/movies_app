@@ -36,7 +36,7 @@ class Movie extends Equatable {
   @HiveField(13)
   final int? voteCount;
   @HiveField(14)
-  String? backdropOfflinePath;
+  String? posterOfflinePath;
 
   Movie({
     this.adult,
@@ -53,11 +53,11 @@ class Movie extends Equatable {
     this.video,
     this.voteAverage,
     this.voteCount,
-    this.backdropOfflinePath,
+    this.posterOfflinePath,
   });
 
-  void setBackdropOfflinePath(String? path) {
-    backdropOfflinePath = path;
+  void setPosterropOfflinePath(String? path) {
+    posterOfflinePath = path;
   }
 
   @override
@@ -76,7 +76,7 @@ class Movie extends Equatable {
         video,
         voteAverage,
         voteCount,
-        backdropOfflinePath
+        posterOfflinePath
       ];
 
   factory Movie.fromJson(Map<String, dynamic> json) {

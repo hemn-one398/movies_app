@@ -23,7 +23,7 @@ abstract class TrendingMovieRepository {
     return null;
   }
 
-  Future<void>? addMovie({
+  Future<Failure?>? addMovie({
     required MovieDetail movie,
   }) {
     return null;

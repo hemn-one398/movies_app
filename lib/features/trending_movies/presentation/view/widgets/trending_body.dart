@@ -84,7 +84,7 @@ class _TrendingMovieListBodyState extends State<TrendingMovieListBody> {
       );
     } else if (state is TrendingMoviesNavigateToMovieDetailPageState) {
       BlocProvider.of<MovieDetailBloc>(context).add(MovieDetailFetchDataEvent(
-        movie: state.movie,
+        movieId: state.movieId,
       ));
       Navigator.of(context).push(MaterialPageRoute(
         builder: (context) => const TrendingMovieDetailScreen(),
@@ -136,7 +136,7 @@ class _TrendingMovieListBodyState extends State<TrendingMovieListBody> {
                 onTap: () {
                   _trendingMovieBloc.add(
                       TrendingMoviesNavigateToMovieDetailPageEvent(
-                          movie: movie));
+                          movieId: movie.id));
                 },
                 movie: movie,
                 isOfflineState:

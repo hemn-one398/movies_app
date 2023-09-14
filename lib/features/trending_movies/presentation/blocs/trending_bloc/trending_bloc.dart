@@ -110,6 +110,6 @@ class TrendingMovieBloc extends Bloc<TrendingMovieEvent, TrendingMovieState> {
   }
 
   FutureOr<void> _navigateToMovieDetailPage(event, emit) {
-    emit(TrendingMoviesNavigateToMovieDetailPageState(movie: event.movie));
+    emit(TrendingMoviesNavigateToMovieDetailPageState(movieId: event.movieId!));
   }
 }

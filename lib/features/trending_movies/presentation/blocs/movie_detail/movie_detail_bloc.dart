@@ -3,7 +3,6 @@ import 'dart:async';
 import 'package:bloc/bloc.dart';
 import 'package:connectivity_plus/connectivity_plus.dart';
 import 'package:iq_movies_app/core/errors/failures.dart';
-import 'package:iq_movies_app/features/trending_movies/data/models/movie.dart';
 import 'package:iq_movies_app/features/trending_movies/data/models/movie_detail.dart';
 import 'package:iq_movies_app/features/trending_movies/data/repositories/trending_movie_repository.dart';
 
@@ -34,14 +33,13 @@ class MovieDetailBloc extends Bloc<MovieDetailEvent, MovieDetailState> {
     }
   }
 
-  _fetchMovieDataFromAPI(event, emit) async {
+  _fetchMovieDataFromAPI(MovieDetailFetchDataEvent event, emit) async {
     var (failure, movieDetail) =
-        await onlineRepo.getMovieDetail(movieId: event.movie.id!);
+        await onlineRepo.getMovieDetail(movieId: event.movieId!);
 
     if (failure == null) {
-      movieDetail!.backdropOfflinePath = event.movie.backdropOfflinePath;
-      await offlineRepo.clearMovieDetail(movieId: event.movie.id!);
-      await offlineRepo.addMovie(movie: movieDetail);
+      await offlineRepo.clearMovieDetail(movieId: event.movieId!);
+      await offlineRepo.addMovie(movie: movieDetail!);
       emit(MovieDetailSuccessStateFromAPI(movieDetail));
     } else {
       emit(MovieDetailFailedState(failure));
@@ -50,7 +48,7 @@ class MovieDetailBloc extends Bloc<MovieDetailEvent, MovieDetailState> {
 
   _fetchMovieDataFromLocal(event, emit) async {
     var (failure, movie) =
-        await offlineRepo.getMovieDetail(movieId: event.movie.id!);
+        await offlineRepo.getMovieDetail(movieId: event.movieId!);
 
     if (failure == null) {
       emit(MovieDetailSuccessStateFromLocal(movie!));

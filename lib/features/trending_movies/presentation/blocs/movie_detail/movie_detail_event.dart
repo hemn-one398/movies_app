@@ -5,8 +5,8 @@ sealed class MovieDetailEvent {
 }
 
 class MovieDetailFetchDataEvent extends MovieDetailEvent {
-  final Movie movie;
+  final int? movieId;
   const MovieDetailFetchDataEvent({
-    required this.movie,
+    required this.movieId,
   });
 }

@@ -1,7 +1,6 @@
 import 'dart:io';
 
 import 'package:flutter/material.dart';
-import 'package:hive_flutter/hive_flutter.dart';
 import 'package:iq_movies_app/core/errors/failures.dart';
 import 'package:iq_movies_app/core/errors/local_failure.dart';
 import 'package:iq_movies_app/core/providers/local/hive_service.dart';
@@ -37,8 +36,8 @@ class TrendingMovieRepoOffLineImplementation extends TrendingMovieRepository {
       ApiServices apiService = ApiServices();
       await Future.wait(movie.map((element) async {
         if (element.backdropPath != null) {
-          element.backdropOfflinePath =
-              await apiService.downloadAndStoreImage(element.backdropPath);
+          element.posterOfflinePath =
+              await apiService.downloadAndStoreImage(element.posterPath);
         }
       })).then((value) async {
         await hiveService.addBoxes(movie, kMovieKey);
@@ -55,8 +54,8 @@ class TrendingMovieRepoOffLineImplementation extends TrendingMovieRepository {
       List<Movie> movies = await hiveService.getBoxes<Movie>(kMovieKey);
       if (movies.isNotEmpty) {
         await Future.wait(movies.map((element) async {
-          if (element.backdropOfflinePath != null) {
-            await File(element.backdropOfflinePath!).delete();
+          if (element.posterOfflinePath != null) {
+            await File(element.posterOfflinePath!).delete();
           }
         }));
       }
@@ -92,16 +91,29 @@ class TrendingMovieRepoOffLineImplementation extends TrendingMovieRepository {
   }
 
   @override
-  Future<void> addMovie({required MovieDetail movie}) async {
-    await hiveService.addBox(movie.id.toString(), movie, kMovieDetailWord);
+  Future<Failure?>? addMovie({required MovieDetail movie}) async {
+    {
+      try {
+        ApiServices apiService = ApiServices();
+
+        movie.backdropOfflinePath =
+            await apiService.downloadAndStoreImage(movie.backdropPath);
+        await hiveService.addBox(movie.id.toString(), movie, kMovieDetailWord);
+      } catch (ex) {
+        return const LoaclFailure("Something went wrong");
+      }
+      return null;
+    }
   }
 
   @override
   Future<void> clearMovieDetail({required int movieId}) async {
     try {
-      final Box<MovieDetail> movieDetail = await hiveService
-          .getBox<MovieDetail>(movieId.toString(), kMovieDetailWord);
-      movieDetail.clear();
+      final movieDetail =
+          await hiveService.getBox(movieId.toString(), kMovieDetailWord);
+      if (movieDetail != null) {
+        movieDetail.clear();
+      }
     } catch (e) {
       debugPrint(e.toString());
     }

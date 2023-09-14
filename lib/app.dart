@@ -38,8 +38,7 @@ class MyApp extends StatelessWidget {
           child: MaterialApp(
               debugShowCheckedModeBanner: false,
               title: 'IQ Movies',
-              theme: ThemeData(
-                colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
+              theme: ThemeData.dark(
                 useMaterial3: true,
               ),
               home: const TrendingScreen()));
