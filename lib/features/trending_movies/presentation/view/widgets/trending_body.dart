@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:iq_movies_app/core/utils/widgets/custom_circular_loading.dart';
+import 'package:iq_movies_app/features/trending_movies/presentation/blocs/movie_detail/movie_detail_bloc.dart';
+import 'package:iq_movies_app/features/trending_movies/presentation/view/screens/trending_movie_detail_screen.dart';
 import 'package:iq_movies_app/features/trending_movies/presentation/view/widgets/movie_item_card.dart';
 import 'package:iq_movies_app/features/trending_movies/data/models/movie.dart';
 import 'package:iq_movies_app/features/trending_movies/presentation/blocs/trending_bloc/trending_bloc.dart';
@@ -80,11 +82,17 @@ class _TrendingMovieListBodyState extends State<TrendingMovieListBody> {
           ]);
         },
       );
+    } else if (state is TrendingMoviesNavigateToMovieDetailPageState) {
+      BlocProvider.of<MovieDetailBloc>(context).add(MovieDetailFetchDataEvent(
+        movie: state.movie,
+      ));
+      Navigator.of(context).push(MaterialPageRoute(
+        builder: (context) => const TrendingMovieDetailScreen(),
+      ));
     }
   }
 
   Widget _builder(BuildContext context, TrendingMovieState state) {
-   
     if (state is TrendingMovieInitial) {
       return const CustomCircularProgressIndicator();
     } else {
@@ -125,7 +133,11 @@ class _TrendingMovieListBodyState extends State<TrendingMovieListBody> {
               final movie = movies[index];
 
               return MovieItemCard(
-                onTap: () {},
+                onTap: () {
+                  _trendingMovieBloc.add(
+                      TrendingMoviesNavigateToMovieDetailPageEvent(
+                          movie: movie));
+                },
                 movie: movie,
                 isOfflineState:
                     currentState is TrendingMoviesGetCachedDataFromLocalState,

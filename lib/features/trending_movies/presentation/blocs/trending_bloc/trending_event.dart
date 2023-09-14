@@ -21,5 +21,5 @@ class TrendingMoviesSearchEvent extends TrendingMovieEvent {
 class TrendingMoviesNavigateToMovieDetailPageEvent extends TrendingMovieEvent {
   final Movie movie;
 
-  const TrendingMoviesNavigateToMovieDetailPageEvent(this.movie);
+  const TrendingMoviesNavigateToMovieDetailPageEvent({required this.movie});
 }

@@ -37,7 +37,7 @@ final class TrendingMoviesNavigateToMovieDetailPageState
     extends TrendingMoviesListenable {
   final Movie movie;
 
-  TrendingMoviesNavigateToMovieDetailPageState(this.movie);
+  TrendingMoviesNavigateToMovieDetailPageState({required this.movie});
 }
 
 final class TrendingMoviesFilteringState extends TrendingMovieState {

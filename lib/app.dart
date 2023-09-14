@@ -4,6 +4,7 @@ import 'package:iq_movies_app/core/providers/local/hive_service.dart';
 import 'package:iq_movies_app/core/providers/remote/api_service.dart';
 import 'package:iq_movies_app/features/trending_movies/data/repositories/trending_movie_repo_offline_implementation.dart';
 import 'package:iq_movies_app/features/trending_movies/data/repositories/trending_movie_repo_online_implementation.dart';
+import 'package:iq_movies_app/features/trending_movies/presentation/blocs/movie_detail/movie_detail_bloc.dart';
 import 'package:iq_movies_app/features/trending_movies/presentation/blocs/trending_bloc/trending_bloc.dart';
 import 'package:iq_movies_app/features/trending_movies/presentation/view/screens/trending_screen.dart';
 import 'package:sizer/sizer.dart';
@@ -24,7 +25,15 @@ class MyApp extends StatelessWidget {
                   offlineRepo: TrendingMovieRepoOffLineImplementation(
                     hiveService: HiveService(),
                   )),
-            )
+            ),
+            BlocProvider<MovieDetailBloc>(
+                create: (context) => MovieDetailBloc(
+                    onlineRepo: TrendingMovieRepoOnLineImplementation(
+                      apiService: ApiServices(),
+                    ),
+                    offlineRepo: TrendingMovieRepoOffLineImplementation(
+                      hiveService: HiveService(),
+                    )))
           ],
           child: MaterialApp(
               debugShowCheckedModeBanner: false,

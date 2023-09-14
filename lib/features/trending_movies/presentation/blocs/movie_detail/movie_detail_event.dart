@@ -5,12 +5,8 @@ sealed class MovieDetailEvent {
 }
 
 class MovieDetailFetchDataEvent extends MovieDetailEvent {
-  final int movieId;
-  //I want access to this offline path so I dont have to download  and store it again
-  final String? backdropOfflinePath;
-
+  final Movie movie;
   const MovieDetailFetchDataEvent({
-    required this.movieId,
-    required this.backdropOfflinePath,
+    required this.movie,
   });
 }

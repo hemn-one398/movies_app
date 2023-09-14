@@ -7,6 +7,7 @@ import 'package:iq_movies_app/core/providers/local/hive_service.dart';
 import 'package:iq_movies_app/core/providers/remote/api_service.dart';
 import 'package:iq_movies_app/core/utils/constants/hive_storage_const.dart';
 import 'package:iq_movies_app/features/trending_movies/data/models/movie.dart';
+import 'package:iq_movies_app/features/trending_movies/data/models/movie_detail.dart';
 import 'package:iq_movies_app/features/trending_movies/data/repositories/trending_movie_repository.dart';
 
 class TrendingMovieRepoOffLineImplementation extends TrendingMovieRepository {
@@ -55,7 +56,6 @@ class TrendingMovieRepoOffLineImplementation extends TrendingMovieRepository {
         await Future.wait(movies.map((element) async {
           if (element.backdropOfflinePath != null) {
             await File(element.backdropOfflinePath!).delete();
-         
           }
         }));
       }
@@ -66,5 +66,11 @@ class TrendingMovieRepoOffLineImplementation extends TrendingMovieRepository {
         debugPrint(e.toString());
       }
     }
+  }
+
+  @override
+  Future<(Failure?, MovieDetail?)> getMovieDetail({required int movieId}) {
+    // TODO: implement getMovieDetail
+    throw UnimplementedError();
   }
 }
