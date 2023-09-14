@@ -32,7 +32,7 @@ class MovieDetailBloc extends Bloc<MovieDetailEvent, MovieDetailState> {
         await onlineRepo.getMovieDetail(movieId: event.movie.id!);
 
     if (failure == null) {
-      movieDetail!.backdropOfflinePath = event.movie.backdropOfflinePath!;
+      movieDetail!.backdropOfflinePath = event.movie.backdropOfflinePath;
 
       emit(MovieDetailSuccessStateFromAPI(movieDetail));
     } else {

@@ -4,13 +4,17 @@ sealed class MovieDetailState {
   const MovieDetailState();
 }
 
+sealed class MovieDetailStateListenable extends MovieDetailState {
+  MovieDetailStateListenable();
+}
+
 final class MovieDetailInitial extends MovieDetailState {}
 
 final class MovieDetailFetchDataState extends MovieDetailState {}
 
-final class MovieDetailFailedState extends MovieDetailState {
+final class MovieDetailFailedState extends MovieDetailStateListenable {
   final Failure failure;
-  const MovieDetailFailedState(this.failure);
+  MovieDetailFailedState(this.failure);
 }
 
 class MovieDetailSuccessState extends MovieDetailState {

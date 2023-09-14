@@ -10,7 +10,7 @@ class MovieDetail extends Equatable {
   @HiveField(0)
   final bool adult;
   @HiveField(1)
-  final String backdropPath;
+  final String? backdropPath;
   @HiveField(2)
   final int? budget;
   @HiveField(3)
@@ -91,7 +91,7 @@ class MovieDetail extends Equatable {
   factory MovieDetail.fromJson(Map<String, dynamic> json) {
     return MovieDetail(
       adult: json['adult'] as bool,
-      backdropPath: json['backdrop_path'] as String,
+      backdropPath: json['backdrop_path'] as String?,
       budget: json['budget'] as int?,
       genres: (json['genres'] as List<dynamic>)
           .map((e) => Genre.fromJson(e as Map<String, dynamic>))

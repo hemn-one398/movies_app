@@ -12,22 +12,34 @@ class TrendingMovieDetailScreen extends StatelessWidget {
     return Scaffold(
       appBar: AppBar(),
       body: BlocConsumer<MovieDetailBloc, MovieDetailState>(
+        buildWhen: (_, state) => state is! MovieDetailStateListenable,
         listener: _listener,
         builder: _builder,
       ),
     );
   }
 
-  void _listener(BuildContext context, MovieDetailState state) {}
+  void _listener(BuildContext context, MovieDetailState state) {
+    if (state is MovieDetailFailedState) {
+      ScaffoldMessenger.of(context)
+          .showSnackBar(SnackBar(content: Text(state.failure.errMessage)));
+    }
+  }
 
   Widget _builder(BuildContext context, MovieDetailState state) {
+    print(state.runtimeType);
     if (state is MovieDetailFetchDataState) {
       return const CustomCircularProgressIndicator();
     } else if (state is MovieDetailSuccessState) {
       final MovieDetail movieDetail = state.movie;
-      return MovieDetailBody(movieDetail: movieDetail);
+      return MovieDetailBody(
+        movieDetail: movieDetail,
+        isOfflineState: state is MovieDetailSuccessStateFromLocal,
+      );
     } else {
-      return const SizedBox();
+      return Container(
+        child: const Text("Error"),
+      );
     }
   }
 }
