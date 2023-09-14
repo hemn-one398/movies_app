@@ -7,6 +7,8 @@ sealed class TrendingMovieEvent extends Equatable {
   List<Object> get props => [];
 }
 
+class TrendingMoviesLoadingMoreEvent extends TrendingMovieEvent {}
+
 class TrendingMoviesFirstFetch extends TrendingMovieEvent {}
 
 class TrendingMoviesFetchCachedDataFromLocalEvent extends TrendingMovieEvent {}

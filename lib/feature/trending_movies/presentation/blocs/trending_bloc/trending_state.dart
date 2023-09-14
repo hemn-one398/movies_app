@@ -13,10 +13,10 @@ sealed class TrendingMoviesListenable extends TrendingMovieState {}
 
 final class TrendingMovieInitial extends TrendingMovieState {}
 
-final class TrendingMoviesLoadingNextPage extends TrendingMovieState {
+final class TrendingMoviesLoadingMoreDataState extends TrendingMovieState {
   final List<Movie> loadedMovies;
 
-  const TrendingMoviesLoadingNextPage({
+  const TrendingMoviesLoadingMoreDataState({
     required this.loadedMovies,
   });
 }
@@ -57,6 +57,6 @@ final class TrendingMoviesFailedState extends TrendingMovieState {
 
   const TrendingMoviesFailedState({
     required this.failure,
-    required this.isFirstFetchFailure,
+    this.isFirstFetchFailure = false,
   });
 }

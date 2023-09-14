@@ -13,6 +13,32 @@ class TrendingMovieListBody extends StatefulWidget {
 }
 
 class _TrendingMovieListBodyState extends State<TrendingMovieListBody> {
+  final ScrollController scrollController = ScrollController();
+  late TrendingMovieBloc _trendingMovieBloc;
+
+  @override
+  void initState() {
+    super.initState();
+    _trendingMovieBloc = BlocProvider.of<TrendingMovieBloc>(context);
+    _setUpScrollListner();
+  }
+
+  @override
+  void dispose() {
+    scrollController.dispose();
+
+    super.dispose();
+  }
+
+  _setUpScrollListner() {
+    scrollController.addListener(() {
+      if (scrollController.position.pixels ==
+          scrollController.position.maxScrollExtent) {
+        _trendingMovieBloc.add(TrendingMoviesLoadingMoreEvent());
+      }
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
     return BlocConsumer<TrendingMovieBloc, TrendingMovieState>(
@@ -30,18 +56,37 @@ class _TrendingMovieListBodyState extends State<TrendingMovieListBody> {
     } else {
       final currentState = state;
       final List<Movie> movies = [];
+      bool isPaginationable = true;
+      bool isLoadingMore = false;
       if (currentState is TrendingMoviesLoaded) {
         movies.addAll(currentState.movies);
+      } else if (currentState is TrendingMoviesLoadingMoreDataState) {
+        movies.addAll(currentState.loadedMovies);
+        isLoadingMore = true;
       }
+      if (movies.isEmpty) {
+        return const Center(
+          child: Text('No Movies'),
+        );
+      }
+      debugPrint("movies.length : ${movies.length}");
       return ListView.builder(
-          itemCount: movies.length,
+          controller: isPaginationable ? scrollController : null,
+          itemCount: movies.length + (isLoadingMore ? 1 : 0),
           itemBuilder: (context, index) {
-            final movie = movies[index];
-            return MovieItemCard(
-              movie: movie,
-              isOfflineState:
-                  currentState is TrendingMoviesGetCachedDataFromLocalState,
-            );
+            if (index < movies.length) {
+              final movie = movies[index];
+              return MovieItemCard(
+                onTap: () {},
+                movie: movie,
+                isOfflineState:
+                    currentState is TrendingMoviesGetCachedDataFromLocalState,
+              );
+            } else {
+              scrollController
+                  .jumpTo(scrollController.position.maxScrollExtent);
+              return const CustomCircularProgressIndicator();
+            }
           });
     }
   }

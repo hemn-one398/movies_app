@@ -12,13 +12,14 @@ part 'trending_state.dart';
 
 class TrendingMovieBloc extends Bloc<TrendingMovieEvent, TrendingMovieState> {
   TrendingMovieRepository onlineRepo;
-
+  int page = 1;
   TrendingMovieBloc({
     required this.onlineRepo,
   }) : super(TrendingMovieInitial()) {
     on<TrendingMoviesFirstFetch>(_firstFetchingOfData);
+    on<TrendingMoviesLoadingMoreEvent>(_fetchingMoreData);
   }
-  int page = 1;
+
   FutureOr<void> _firstFetchingOfData(event, emit) async {
     var (faliure, movies) = await onlineRepo.getTrendingMovies(page: page);
     if (faliure == null) {
@@ -30,6 +31,32 @@ class TrendingMovieBloc extends Bloc<TrendingMovieEvent, TrendingMovieState> {
         TrendingMoviesFailedState(
             failure: faliure, isFirstFetchFailure: isFirstFetch),
       );
+    }
+  }
+
+  FutureOr<void> _fetchingMoreData(TrendingMoviesLoadingMoreEvent event,
+      Emitter<TrendingMovieState> emit) async {
+    final currentState = state;
+    // loadedMovies is for holding loaded movies and append it upcoming movies from scrolling
+
+    List<Movie> loadedMoves = [];
+    if (currentState is TrendingMoviesLoaded) {
+      loadedMoves = currentState.movies;
+    }
+    // I dont want lose the loaded movies cuz changing of the state
+    emit(TrendingMoviesLoadingMoreDataState(
+      loadedMovies: loadedMoves,
+    ));
+
+    var (faliure, newFetchedmovies) =
+        await onlineRepo.getTrendingMovies(page: page);
+    if (faliure == null) {
+      loadedMoves.addAll(newFetchedmovies!);
+      emit(TrendingMoviesLoaded(movies: loadedMoves));
+    } else {
+      emit(TrendingMoviesFailedState(
+        failure: faliure,
+      ));
     }
   }
 }
