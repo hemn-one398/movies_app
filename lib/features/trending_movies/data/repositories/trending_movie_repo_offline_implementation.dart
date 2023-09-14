@@ -1,6 +1,7 @@
 import 'dart:io';
 
 import 'package:flutter/material.dart';
+import 'package:hive_flutter/hive_flutter.dart';
 import 'package:iq_movies_app/core/errors/failures.dart';
 import 'package:iq_movies_app/core/errors/local_failure.dart';
 import 'package:iq_movies_app/core/providers/local/hive_service.dart';
@@ -69,8 +70,40 @@ class TrendingMovieRepoOffLineImplementation extends TrendingMovieRepository {
   }
 
   @override
-  Future<(Failure?, MovieDetail?)> getMovieDetail({required int movieId}) {
-    // TODO: implement getMovieDetail
-    throw UnimplementedError();
+  Future<(Failure?, MovieDetail?)> getMovieDetail(
+      {required int movieId}) async {
+    {
+      MovieDetail? movie;
+      Failure? failure;
+      bool isExist = await hiveService.isExists(boxName: kMovieDetailWord);
+
+      if (isExist) {
+        movie = await hiveService.getBox<MovieDetail>(
+            movieId.toString(), kMovieDetailWord);
+        if (movie == null) {
+          failure = const LoaclFailure(
+              "You don't have this movie in the local storage");
+        }
+      } else {
+        failure = const LoaclFailure("You have no cached data");
+      }
+      return (failure, movie);
+    }
+  }
+
+  @override
+  Future<void> addMovie({required MovieDetail movie}) async {
+    await hiveService.addBox(movie.id.toString(), movie, kMovieDetailWord);
+  }
+
+  @override
+  Future<void> clearMovieDetail({required int movieId}) async {
+    try {
+      final Box<MovieDetail> movieDetail = await hiveService
+          .getBox<MovieDetail>(movieId.toString(), kMovieDetailWord);
+      movieDetail.clear();
+    } catch (e) {
+      debugPrint(e.toString());
+    }
   }
 }

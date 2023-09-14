@@ -22,4 +22,16 @@ abstract class TrendingMovieRepository {
   Future<void>? clearMovieList() {
     return null;
   }
+
+  Future<void>? addMovie({
+    required MovieDetail movie,
+  }) {
+    return null;
+  }
+
+  Future<void>? clearMovieDetail({
+    required int movieId,
+  }) {
+    return null;
+  }
 }
