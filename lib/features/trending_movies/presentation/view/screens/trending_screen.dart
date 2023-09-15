@@ -20,7 +20,8 @@ class _TrendingScreenState extends State<TrendingScreen> {
   Timer? _debounce;
   late TrendingMovieBloc _trendingMovieBloc;
   final Connectivity _connectivity = Connectivity();
-  ConnectivityResult result = ConnectivityResult.none;
+  ConnectivityResult connectivityResult = ConnectivityResult.none;
+
   @override
   void initState() {
     initConnectivity();
@@ -33,7 +34,7 @@ class _TrendingScreenState extends State<TrendingScreen> {
   Future<void> initConnectivity() async {
     // Platform messages may fail, so we use a try/catch PlatformException.
     try {
-      result = await _connectivity.checkConnectivity();
+      connectivityResult = await _connectivity.checkConnectivity();
     } on PlatformException catch (e) {
       developer.log('Couldn\'t check connectivity status', error: e);
       return;
@@ -46,10 +47,10 @@ class _TrendingScreenState extends State<TrendingScreen> {
       return Future.value(null);
     }
 
-    return _updateConnectionStatus(result);
+    return _singleCheck(connectivityResult);
   }
 
-  Future<void> _updateConnectionStatus(ConnectivityResult result) async {
+  Future<void> _singleCheck(ConnectivityResult result) async {
     setState(() {
       _trendingMovieBloc.add(result == ConnectivityResult.none
           ? TrendingMoviesFetchCachedDataFromLocalEvent()
@@ -71,6 +72,7 @@ class _TrendingScreenState extends State<TrendingScreen> {
   @override
   void dispose() {
     _debounce?.cancel();
+
     super.dispose();
   }
 
@@ -78,7 +80,31 @@ class _TrendingScreenState extends State<TrendingScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Trending Movie'),
+        title: const Text('Trending movies'),
+        actions: [
+          connectivityResult == ConnectivityResult.none
+              ? IconButton(
+                  onPressed: () async {
+                    connectivityResult =
+                        await _connectivity.checkConnectivity();
+                    _singleCheck(connectivityResult);
+                  },
+                  icon: const Row(
+                    children: [
+                      Text(
+                        "You are offline ",
+                        style: TextStyle(
+                          color: Colors.red,
+                        ),
+                      ),
+                      Icon(
+                        Icons.refresh,
+                        color: Colors.red,
+                      ),
+                    ],
+                  ))
+              : const SizedBox.shrink(),
+        ],
       ),
       body: Column(
         children: [

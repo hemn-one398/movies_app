@@ -25,6 +25,7 @@ class TrendingMovieBloc extends Bloc<TrendingMovieEvent, TrendingMovieState> {
   }
 
   FutureOr<void> _firstFetchingOfData(event, emit) async {
+    page = 1;
     var (faliure, movies) = await onlineRepo.getTrendingMovies(page: page);
     if (faliure == null) {
       page++;
