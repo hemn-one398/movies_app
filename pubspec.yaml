@@ -63,6 +63,7 @@ dev_dependencies:
   hive_generator:
   build_runner:
   bloc_test: ^9.1.4
+  rename: ^2.1.1
 
 # For information on the generic Dart part of this file, see the
 # following page: https://dart.dev/tools/pub/pubspec
