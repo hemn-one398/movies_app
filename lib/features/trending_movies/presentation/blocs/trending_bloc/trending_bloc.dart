@@ -22,8 +22,6 @@ class TrendingMovieBloc extends Bloc<TrendingMovieEvent, TrendingMovieState> {
     on<TrendingMoviesLoadingMoreEvent>(_fetchingMoreData);
     on<TrendingMoviesSearchEvent>(_searchForMovieEvent);
     on<TrendingMoviesFetchCachedDataFromLocalEvent>(_fetchCachedDataFromLocal);
-    on<TrendingMoviesNavigateToMovieDetailPageEvent>(
-        _navigateToMovieDetailPage);
   }
 
   FutureOr<void> _firstFetchingOfData(event, emit) async {
@@ -107,9 +105,5 @@ class TrendingMovieBloc extends Bloc<TrendingMovieEvent, TrendingMovieState> {
         failure: faliure,
       ));
     }
-  }
-
-  FutureOr<void> _navigateToMovieDetailPage(event, emit) {
-    emit(TrendingMoviesNavigateToMovieDetailPageState(movieId: event.movieId!));
   }
 }

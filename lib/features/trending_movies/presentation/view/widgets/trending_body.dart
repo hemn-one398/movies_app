@@ -33,7 +33,7 @@ class _TrendingMovieListBodyState extends State<TrendingMovieListBody> {
   }
 
   _setUpScrollListner() {
-    scrollController.addListener(() {
+    scrollController.addListener(() async {
       if (scrollController.position.atEdge && !isLoadingMore) {
         if (scrollController.position.pixels != 0) {
           _trendingMovieBloc.add(TrendingMoviesLoadingMoreEvent());
@@ -82,13 +82,6 @@ class _TrendingMovieListBodyState extends State<TrendingMovieListBody> {
           ]);
         },
       );
-    } else if (state is TrendingMoviesNavigateToMovieDetailPageState) {
-      BlocProvider.of<MovieDetailBloc>(context).add(MovieDetailFetchDataEvent(
-        movieId: state.movieId,
-      ));
-      Navigator.of(context).push(MaterialPageRoute(
-        builder: (context) => const TrendingMovieDetailScreen(),
-      ));
     }
   }
 
@@ -134,9 +127,13 @@ class _TrendingMovieListBodyState extends State<TrendingMovieListBody> {
 
               return MovieItemCard(
                 onTap: () {
-                  _trendingMovieBloc.add(
-                      TrendingMoviesNavigateToMovieDetailPageEvent(
-                          movieId: movie.id));
+                  BlocProvider.of<MovieDetailBloc>(context)
+                      .add(MovieDetailFetchDataEvent(
+                    movieId: movie.id,
+                  ));
+                  Navigator.of(context).push(MaterialPageRoute(
+                    builder: (context) => const TrendingMovieDetailScreen(),
+                  ));
                 },
                 movie: movie,
                 isOfflineState:

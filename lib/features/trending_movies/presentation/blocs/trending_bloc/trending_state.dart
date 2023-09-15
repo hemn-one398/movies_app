@@ -32,13 +32,7 @@ final class TrendingMoviesGetCachedDataFromLocalState
   const TrendingMoviesGetCachedDataFromLocalState({required super.movies});
 }
 
-//state of navigating to movie detail page
-final class TrendingMoviesNavigateToMovieDetailPageState
-    extends TrendingMoviesListenable {
-  final int? movieId;
 
-  TrendingMoviesNavigateToMovieDetailPageState({required this.movieId});
-}
 
 final class TrendingMoviesFilteringState extends TrendingMovieState {
   final List<Movie> filteredMovies;

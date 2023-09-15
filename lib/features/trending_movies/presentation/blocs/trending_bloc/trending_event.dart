@@ -16,8 +16,4 @@ class TrendingMoviesSearchEvent extends TrendingMovieEvent {
   const TrendingMoviesSearchEvent({required this.query});
 }
 
-class TrendingMoviesNavigateToMovieDetailPageEvent extends TrendingMovieEvent {
-  final int? movieId;
 
-  const TrendingMoviesNavigateToMovieDetailPageEvent({required this.movieId});
-}
