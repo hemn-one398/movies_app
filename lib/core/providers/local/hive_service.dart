@@ -8,7 +8,7 @@ class HiveService {
     return length != 0;
   }
 
-  clear(String boxName) async {
+  clearBoxes(String boxName) async {
     final openBox = await Hive.openBox(boxName);
     await openBox.clear();
   }
@@ -38,6 +38,11 @@ class HiveService {
   getBox<T>(String key, String boxName) async {
     final openBox = await Hive.openBox(boxName);
     return openBox.get(key);
+  }
+
+  clearBox<T>(String key, String boxName) async {
+    final openBox = await Hive.openBox(boxName);
+    openBox.clear();
   }
 
   getBoxes<T>(String boxName) async {

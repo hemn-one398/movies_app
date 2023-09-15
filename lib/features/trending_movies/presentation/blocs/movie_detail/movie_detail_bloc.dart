@@ -42,7 +42,7 @@ class MovieDetailBloc extends Bloc<MovieDetailEvent, MovieDetailState> {
       await offlineRepo.addMovie(movie: movieDetail!);
       emit(MovieDetailSuccessStateFromAPI(movieDetail));
     } else {
-      emit(MovieDetailFailedState(failure));
+      emit(MovieDetailFailedState(failure: failure, movieId: event.movieId!));
     }
   }
 
@@ -53,7 +53,7 @@ class MovieDetailBloc extends Bloc<MovieDetailEvent, MovieDetailState> {
     if (failure == null) {
       emit(MovieDetailSuccessStateFromLocal(movie!));
     } else {
-      emit(MovieDetailFailedState(failure));
+      emit(MovieDetailFailedState(failure: failure, movieId: event.movieId!));
     }
   }
 }

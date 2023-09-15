@@ -10,3 +10,10 @@ class MovieDetailFetchDataEvent extends MovieDetailEvent {
     required this.movieId,
   });
 }
+
+class MovieDetailFetchDataFromLocalEvent extends MovieDetailEvent {
+  final int? movieId;
+  const MovieDetailFetchDataFromLocalEvent({
+    required this.movieId,
+  });
+}

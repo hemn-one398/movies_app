@@ -59,8 +59,8 @@ class TrendingMovieRepoOffLineImplementation extends TrendingMovieRepository {
           }
         }));
       }
-      await hiveService.clear(kMovieKey);
-      await hiveService.clear(kMovieDetailWord);
+      await hiveService.clearBoxes(kMovieKey);
+      await hiveService.clearBoxes(kMovieDetailWord);
     } catch (e) {
       if (e is! PathNotFoundException) {
         debugPrint(e.toString());
@@ -109,11 +109,7 @@ class TrendingMovieRepoOffLineImplementation extends TrendingMovieRepository {
   @override
   Future<void> clearMovieDetail({required int movieId}) async {
     try {
-      final movieDetail =
-          await hiveService.getBox(movieId.toString(), kMovieDetailWord);
-      if (movieDetail != null) {
-        movieDetail.clear();
-      }
+      await hiveService.clearBox(movieId.toString(), kMovieDetailWord);
     } catch (e) {
       debugPrint(e.toString());
     }

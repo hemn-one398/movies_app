@@ -10,8 +10,6 @@ class TrendingMoviesFirstFetch extends TrendingMovieEvent {}
 
 class TrendingMoviesFetchCachedDataFromLocalEvent extends TrendingMovieEvent {}
 
-class TreandingMoviesRefresh extends TrendingMovieEvent {}
-
 class TrendingMoviesSearchEvent extends TrendingMovieEvent {
   final String query;
 

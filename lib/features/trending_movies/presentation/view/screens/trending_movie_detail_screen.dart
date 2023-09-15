@@ -16,7 +16,6 @@ class TrendingMovieDetailScreen extends StatelessWidget {
         elevation: 0,
       ),
       body: BlocConsumer<MovieDetailBloc, MovieDetailState>(
-        buildWhen: (_, state) => state is! MovieDetailStateListenable,
         listener: _listener,
         builder: _builder,
       ),
@@ -25,8 +24,30 @@ class TrendingMovieDetailScreen extends StatelessWidget {
 
   void _listener(BuildContext context, MovieDetailState state) {
     if (state is MovieDetailFailedState) {
-      ScaffoldMessenger.of(context)
-          .showSnackBar(SnackBar(content: Text(state.failure.errMessage)));
+      showDialog(
+        barrierDismissible: false,
+        context: context,
+        builder: (_) {
+          return AlertDialog(title: Text(state.failure.errMessage), actions: [
+            TextButton(
+                child: const Text('Retry'),
+                onPressed: () {
+                  Navigator.pop(context);
+
+                  BlocProvider.of<MovieDetailBloc>(context).add(
+                    MovieDetailFetchDataEvent(
+                      movieId: state.movieId,
+                    ),
+                  );
+                }),
+            TextButton(
+                child: const Text('Close'),
+                onPressed: () {
+                  Navigator.pop(context);
+                }),
+          ]);
+        },
+      );
     }
   }
 
@@ -39,10 +60,13 @@ class TrendingMovieDetailScreen extends StatelessWidget {
         movieDetail: movieDetail,
         isOfflineState: state is MovieDetailSuccessStateFromLocal,
       );
-    } else {
-      return Container(
-        child: const Text("Error"),
+    } else if (state is MovieDetailFailedState) {
+      return Center(
+        child: Text(state.failure.errMessage),
       );
     }
+    return const Center(
+      child: Text('Something went wrong'),
+    );
   }
 }
