@@ -51,7 +51,7 @@ class DefaultFirebaseOptions {
 
   static const FirebaseOptions android = FirebaseOptions(
     apiKey: 'AIzaSyDW11yct7aKOv05tBX9A__cjMqq878vz04',
-    appId: '1:1008175138908:android:7a62ef11bd627d42c57e99',
+    appId: '1:1008175138908:android:3cdabf71ba12e5c1c57e99',
     messagingSenderId: '1008175138908',
     projectId: 'iq-movie-app',
     storageBucket: 'iq-movie-app.appspot.com',
@@ -59,10 +59,10 @@ class DefaultFirebaseOptions {
 
   static const FirebaseOptions ios = FirebaseOptions(
     apiKey: 'AIzaSyA77HJNaNdA_gt5WkDEw9lMJ-J-Mj-Wblk',
-    appId: '1:1008175138908:ios:76cc297c6ad6caadc57e99',
+    appId: '1:1008175138908:ios:22f057fa695ffb05c57e99',
     messagingSenderId: '1008175138908',
     projectId: 'iq-movie-app',
     storageBucket: 'iq-movie-app.appspot.com',
-    iosBundleId: 'com.example.iqMoviesApp',
+    iosBundleId: 'com.iqco.movieapp',
   );
 }
