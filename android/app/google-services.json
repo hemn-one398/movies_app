@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "1008175138908",
+    "project_id": "iq-movie-app",
+    "storage_bucket": "iq-movie-app.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:1008175138908:android:7a62ef11bd627d42c57e99",
+        "android_client_info": {
+          "package_name": "com.example.iq_movies_app"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDW11yct7aKOv05tBX9A__cjMqq878vz04"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
