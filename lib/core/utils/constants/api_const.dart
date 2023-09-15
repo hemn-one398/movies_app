@@ -13,6 +13,6 @@ class ApiConsts {
   static getMovieDetailEndPoint({
     required int movieId,
   }) {
-    return "/moviae/$movieId";
+    return "/movie/$movieId";
   }
 }
